@@ -1,0 +1,138 @@
+{% extends "halaman/base.html "%}
+
+{% load static %}
+{% block css %}
+<style>
+  .article-content {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+<header class="header-2">
+    <div class="page-header min-vh-75" style="background-image: url('{% static 'halaman/assets/img/bg.jpg' %}')" loading="lazy">
+      <span class="mask  opacity-4"></span>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-dark pt-3 mt-n5">Selamat Datang Di Web Saya</h1>
+            <p class="lead text-dark mt-3 px-5">Web berita </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
+
+    <section class="my-5 py-5" id="berita">
+      <div class="container">
+        <div class="row">
+          <div class="row justify-content-center text-center my-sm-5">
+            <div class="row justify-space-between text-center py-2">
+              <div class="col-12 mx-auto">
+                <a href="{% url 'home' %}#berita" class="btn {% if menu_aktif == 'ALL' %}btn-primary{% else %}btn-secondary{% endif %} w-auto me-2">ALL</a>
+                {% for kategori in data_kategori %}
+                    <a href="/?kategori={{ kategori.nama }}#berita" class="btn {% if menu_aktif == kategori.nama %}btn-primary{% else %}btn-secondary{% endif %} w-auto me-2">{{ kategori.nama }}</a>
+                {% endfor %}
+              </div>                    
+            </div>                                    
+          </div>
+        </div>
+      </div>
+      <!-- START Blogs w/ 4 cards w/ image & text & link -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 ms-auto me-auto">
+          {% for artikel in data_artikel %}
+          <div class="card card-plain card-blog mt-5">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="card-image position-relative border-radius-lg">
+                  <div class="blur-shadow-image">
+                    {% if artikel.thumbnail %}
+                    <img class="img border-radius-lg" src="{{artikel.thumbnail.url}}">
+                    {% else %}
+                    <img class="img border-radius-lg" src="{% static 'halaman/assets/img/tidakada.png' %}">
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7 my-auto ms-md-3 mt-md-auto mt-4">
+                <h3>
+                  <a href="{% url "detail_artikel" artikel.slug %}" class="text-primary font-weight-normal">{{artikel.judul}}</a>
+                </h3>
+                <p>
+                  {{artikel.isi|safe|truncatechars:'150'}} <a href="{% url "detail_artikel" artikel.slug %}" class="text-primary"> Read More </a>
+                </p>
+                <div class="author">
+                   <img src="{% static 'img/kucing.jpg' %}" alt="..." class="avatar border-radius-lg avatar-sm shadow me-2">
+                   <p class="my-auto">{{artikel.author}}</p><br>
+                   <p class="my-auto">{{artikel.created_at|date:"d-m-Y"}}</p>
+                </div><br>
+                <div class="author">
+                <p class="my-auto text-uppercase font-weight-bold text-primary text-xs">{{artikel.kategori}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="card card-plain card-blog mt-5">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="card-image position-relative border-radius-lg">
+                  <div class="blur-shadow-image">
+                    <img class="img border-radius-lg" src="{% static 'halaman/assets/img/tidakada.png' %}">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7 my-auto ms-md-3 mt-md-auto mt-4">
+                <h3>
+                  <a href="{% url "home" %}" class="text-primary font-weight-normal">Oh no! Page Not Found</a>
+                </h3>
+                <p>
+                  Sumber yang Anda tuju sudah tidak tersedia lagi. Sebagai alternatif, Anda bisa kembali ke halaman utama situs tersebut dan menelusuri kembali apakah ada informasi yang Anda cari. <a href="{% url "home" %}" class="text-primary"> Read More </a>
+                </p>
+                <div class="author">
+                <p class="my-auto text-uppercase font-weight-bold text-primary text-xs">Tidak Ada</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      </div>
+    </section>
+<!-- END Blogs w/ 4 cards w/ image & text & link -->
+    </section>
+    <!-- -------   END PRE-FOOTER 2 - simple social line w/ title & 3 buttons    -------- -->
+  </div>
+
+{% endblock content %}
+
+{% block js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var buttons = document.querySelectorAll('.btn');
+    
+    buttons.forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        // Hapus kelas 'btn-primary' dari semua tombol dan tambahkan 'btn-secondary'
+        buttons.forEach(function(btn) {
+          btn.classList.remove('btn-primary');
+          btn.classList.add('btn-secondary');
+        });
+        
+        // Tambahkan kelas 'btn-primary' pada tombol yang diklik
+        event.target.classList.remove('btn-secondary');
+        event.target.classList.add('btn-primary');
+      });
+    });
+  });
+</script>
+
+{% endblock js %}

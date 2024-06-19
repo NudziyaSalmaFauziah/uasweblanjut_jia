@@ -1,0 +1,49 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header ">
+        <h4 class="card-title">{{title}}</h4>
+      </div>
+      <div class="card-body ">
+        <form method="POST" class="form-horizontal">
+            {% csrf_token %}
+          <div class="row">
+            <label class="col-md-3 col-form-label">Nama Akun :</label>
+            <div class="col-md-9">
+              <div class="form-group">
+                {{form.username}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-md-3 col-form-label">Status :</label>
+            <div class="col-md-9">
+              <div class="form-group" style="margin-top: 10px;">
+                {{ form.groups }}
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-right">
+            <div class="row">
+              <label class="col-md-3"></label>
+              <div class="col-md-9">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+                <a href="{% url 'pengguna_list' %}" class="btn btn-info btn-round">Kembali</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock content %}

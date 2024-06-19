@@ -1,0 +1,48 @@
+{% extends "halaman/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="card card-body shadow-xl mx-3 mx-md-4 mt-7">
+    <!-- START Blogs w/ 3 images & quote & text -->
+    <section class="py-5 mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 ms-auto me-auto">
+            <div class="text-center">
+              <span class="badge badge-primary d-inline-block">{{ artikel.kategori.nama }}</span>
+            </div><br>
+            <h3 class="title mb-4">{{artikel.judul}}</h3>                     
+            <!-- Image Section -->
+            <div class="text-center mb-4">
+              {% if artikel.thumbnail %}
+              <img src="{{artikel.thumbnail.url}}" class="img-fluid rounded" alt="Design System" style="height: 350px; width: 900px;">
+              {% else %}
+              <img src="{% static 'halaman/assets/img/tidakada.png' %}" class="img-fluid rounded" alt="Design System">
+              {% endif %}
+            </div>
+            
+            <p class="text-dark">
+              {{artikel.isi|safe}}
+            </p>
+            
+            <!-- Author Section -->
+            <div class="d-flex align-items-center mt-4">
+              <img src="{% static 'img/kucing.jpg' %}" class="rounded-circle me-3" alt="Author Image" style="width: 50px; height: 50px;">
+              <div>
+                <h6 class="mb-0">{{artikel.author}}</h6>
+                <small class="text-muted">{{artikel.created_at|date:"d-m-Y"}}</small>
+              </div>
+            </div><br>
+            <div class="mb-4">
+              <span class="badge bg-primary">{{ artikel.kategori.nama }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- -------   END PRE-FOOTER 2 - simple social line w/ title & 3 buttons    -------- -->
+</div>
+
+{% endblock content %}
